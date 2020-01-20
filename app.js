@@ -14,16 +14,13 @@ scores = [0, 0];
 roundScore = 0;
 activePlayer = 0;
 
-
 //html dökümalarının içeriğini değiştirmek için  iki yol vardır.
 //Birinicisi aşağıdaki gibidir;
 //document.querySelector("#current-" + activePlayer).textContent = dice;
 //html dökümanların içeriğini değiştirmek için ikinciyol ise
 //document.querySelector("#current-" + activePlayer).innerHTML = "<em>" + dice + "</em>";
-
 //let x =document.querySelector("#score-0").textContent;
 //console.log(x);
-
 document.querySelector(".dice").style.display = "none";
 document.getElementById("score-0").textContent = "0";
 document.getElementById("score-1").textContent = "0";
@@ -45,17 +42,7 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
         document.querySelector("#current-" + activePlayer).textContent = roundScore;
 
     } else {
-        //next player
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-        document.getElementById("current-0").textContent = "0";
-        document.getElementById("current-1").textContent = "0";
-        document.querySelector(".player-0-panel").classList.toggle("active");
-        document.querySelector(".player-1-panel").classList.toggle("active");
-
-       // document.querySelector(".player-0-panel").classList.remove("active");
-       // document.querySelector(".player-1-panel").classList.add("active");
-        document.querySelector(".dice").style.display = "none";
+        nextPlayer();
     }
 });
 
@@ -85,3 +72,35 @@ document.querySelector(".btn-language").addEventListener("click", function () {
 
 });
 
+document.querySelector(".btn-hold").addEventListener("click", function () {
+    // mevcut oyuncunun skorunu genel skora eklemek
+    scores[activePlayer] += roundScore;
+    //arayüzü güncellemek
+    document.querySelector("#score-" + activePlayer).textContent = scores[activePlayer];
+
+    //oyunu kimin kazandığını kontrol etmek
+    if (scores[activePlayer] >= 20) {
+        document.querySelector("#name-" + activePlayer).textContent = "WINNER";
+        document.querySelector(".dice").style.display = "none";
+        document.querySelector(".player-"+activePlayer+"-panel").classList.add("winner");
+        document.querySelector(".player-"+activePlayer+"-panel").classList.remove("active");
+    } else {
+        //gelecek oyuncu
+        nextPlayer();
+    }
+
+});
+
+function nextPlayer() {
+    //next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+    document.getElementById("current-0").textContent = "0";
+    document.getElementById("current-1").textContent = "0";
+    document.querySelector(".player-0-panel").classList.toggle("active");
+    document.querySelector(".player-1-panel").classList.toggle("active");
+
+    // document.querySelector(".player-0-panel").classList.remove("active");
+    // document.querySelector(".player-1-panel").classList.add("active");
+    document.querySelector(".dice").style.display = "none";
+}
