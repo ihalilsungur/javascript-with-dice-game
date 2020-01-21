@@ -2,6 +2,25 @@
 *** GENERAL
 **********************************************/
 
+.final-score{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 570px;
+    color: #555555;
+    font-size: 18px;
+    border-radius: 10px;
+    font-family:  serif;
+    padding: 5px;
+    width: 160px;
+    text-align: center;
+
+
+}
+
+.final-score :focus{
+    outline: none;
+}
 * {
     margin: 0;
     padding: 0;

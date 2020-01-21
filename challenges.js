@@ -12,6 +12,7 @@ GAME RULES:
 let scores, roundScore, activePlayer, dice, gamePlaying;
 
 init();
+let lastDice;
 
 //html dökümalarının içeriğini değiştirmek için  iki yol vardır.
 //Birinicisi aşağıdaki gibidir;
@@ -33,13 +34,18 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
         diceDom.style.display = "block";
         diceDom.src = "dice-" + dice + ".png";
         //3. score güncelleme
-        if (dice !== 1) {
+        if (dice === 6 && lastDice === 6) {
+            scores[activePlayer] = 0;
+            document.querySelector("#score-"+activePlayer).textContent = "0";
+            nextPlayer();
+        } else if (dice !== 1) {
             roundScore += dice;
             document.querySelector("#current-" + activePlayer).textContent = roundScore;
 
         } else {
             nextPlayer();
         }
+        lastDice = dice;
     }
 });
 
@@ -75,9 +81,15 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
         scores[activePlayer] += roundScore;
         //arayüzü güncellemek
         document.querySelector("#score-" + activePlayer).textContent = scores[activePlayer];
-
+        let input = document.querySelector(".final-score").value;
+        let winnigScore;
+        if(input){
+            winnigScore = input;
+        }else{
+            winnigScore = 100;
+        }
         //oyunu kimin kazandığını kontrol etmek
-        if (scores[activePlayer] >= 20) {
+        if (scores[activePlayer] >= winnigScore) {
             document.querySelector("#name-" + activePlayer).textContent = "WINNER";
             document.querySelector(".dice").style.display = "none";
             document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
